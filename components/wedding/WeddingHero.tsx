@@ -10,7 +10,6 @@ interface WeddingHeroProps {
   imageAlt?: string
   title: string
   subtitle?: string
-  date?: string
   className?: string
   overlayOpacity?: "light" | "medium" | "dark" | "darker"
 }
@@ -20,7 +19,6 @@ export function WeddingHero({
   imageAlt = "Wedding rings",
   title,
   subtitle,
-  date,
   className,
   overlayOpacity = "medium",
 }: WeddingHeroProps) {
@@ -96,7 +94,7 @@ export function WeddingHero({
         )}
       >
         {subtitle && (
-          <p className="font-light tracking-[0.3em] text-white/80 text-xs sm:text-sm uppercase">
+          <p className="font-bold tracking-[0.3em] text-white/80 text-xs sm:text-sm uppercase">
             {subtitle}
           </p>
         )}
@@ -104,16 +102,6 @@ export function WeddingHero({
         <h1 className="font-serif text-4xl font-light tracking-wide sm:text-5xl md:text-6xl lg:text-7xl">
           {title}
         </h1>
-
-        {date && (
-          <div className="mt-2 flex items-center gap-4 sm:mt-4">
-            <span className="h-px w-8 bg-white/50 sm:w-12" />
-            <p className="text-base font-light tracking-widest sm:text-lg md:text-xl">
-              {date}
-            </p>
-            <span className="h-px w-8 bg-white/50 sm:w-12" />
-          </div>
-        )}
       </div>
 
       {/* Scroll indicator */}
