@@ -35,9 +35,9 @@ interface WeddingWebsiteProps {
   celebrationLocation: string
   celebrationAddress: string
   
-  receptionTime: string
-  receptionLocation: string
-  receptionAddress: string
+  // receptionTime: string
+  // receptionLocation: string
+  // receptionAddress: string
   
   // Optional sections
   showCelebration: boolean
