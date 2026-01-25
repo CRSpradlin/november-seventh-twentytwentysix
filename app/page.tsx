@@ -1,14 +1,10 @@
-import { WeddingWebsite } from "@/components/wedding";
+
+import { WeddingWebsite } from "@/app/components/wedding";
 
 export default function Page() {
 return <WeddingWebsite
   heroImageSrc="/BothRings.png"
   coupleNames="Brittany & Christopher"
-
-  celebrationDate="November 8th, 2026"
-  celebrationTime="4:00 PM"
-  celebrationLocation="St. Mary's Chapel"
-  celebrationAddress="123 Wedding Lane"
 
   heroImageAlt="Wedding Celebration Banner"
 
