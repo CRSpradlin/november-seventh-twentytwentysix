@@ -1,34 +1,39 @@
+"use client";
+
 import { notFound, redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import { getInvitationByCode } from '@/app/backend/db';
+import { setInvitationCodeCookie } from '@/app/backend/cookies';
+import { useEffect } from 'react';
 
 interface PageProps {
-  params: Promise<{
-    invitationCode: string;
-  }>;
+    params: Promise<{
+        invitationCode: string;
+    }>;
 }
 
-export default async function RSVPPage({ params }: PageProps) {
-  const { invitationCode } = await params;
+export default function RSVPPage({ params }: PageProps) {
 
-  // Validate the invitation code exists in the database
-  const invitation = await getInvitationByCode(invitationCode);
-  
-  // If invitation code is not valid, show 404
-  if (!invitation) {
-    notFound();
-  }
+    useEffect(() => {
+        const handleInvitation = async () => {
+            const { invitationCode } = await params;
 
-  // Set the invitation code as a cookie
-  const cookieStore = await cookies();
-  cookieStore.set('invitationCode', invitationCode, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 365, // 365 days
-    path: '/',
-  });
+            // Validate the invitation code exists in the database
+            const invitation = await getInvitationByCode(invitationCode);
 
-  // Redirect to the main page or RSVP form
-  redirect('/');
+            // If invitation code is not valid, show 404
+            if (!invitation) {
+                notFound();
+            }
+
+            await setInvitationCodeCookie(invitationCode);
+
+            // Redirect to the main page or RSVP form
+            redirect('/');
+        };
+
+        handleInvitation();
+    }, [params]);
+
+    return null; // This page does not render anything itself
+
 }
