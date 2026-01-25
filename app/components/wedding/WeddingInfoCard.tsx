@@ -1,6 +1,4 @@
-"use client"
 
-import * as React from "react"
 import { cn } from "@/lib/utils"
 import {
   Card,
@@ -8,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/app/components/ui/card"
 import { HugeiconsIcon } from "@hugeicons/react"
 
 interface WeddingInfoCardProps {

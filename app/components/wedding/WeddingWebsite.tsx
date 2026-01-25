@@ -1,19 +1,17 @@
-"use client"
 
-import * as React from "react"
 import { cn } from "@/lib/utils"
 import { WeddingHero } from "./WeddingHero"
 import { WeddingSection } from "./WeddingSection"
 import { WeddingInfoCard } from "./WeddingInfoCard"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/app/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+} from "@/app/components/ui/card"
+import { Separator } from "@/app/components/ui/separator"
 import {
   Gif01Icon,
   FavouriteIcon,
@@ -27,12 +25,12 @@ interface WeddingWebsiteProps {
   heroImageSrc: string
   heroImageAlt?: string
   coupleNames: string
-  celebrationDate: string
+  // celebrationDate: string
   
-  // Event details
-  celebrationTime: string
-  celebrationLocation: string
-  celebrationAddress: string
+  // // Event details
+  // celebrationTime: string
+  // celebrationLocation: string
+  // celebrationAddress: string
   
   // receptionTime: string
   // receptionLocation: string
@@ -60,15 +58,15 @@ export function WeddingWebsite({
   heroImageSrc,
   heroImageAlt = "Wedding Celebration Banner",
   coupleNames = "Mr & Mrs",
-  celebrationDate,
-  celebrationTime = "UPDATE CELEBRATION TIME",
-  celebrationLocation = "UPDATE CELEBRATION LOCATION",
-  celebrationAddress = "UPDATE CELEBRATION ADDRESS",
+  // celebrationDate,
+  // celebrationTime = "UPDATE CELEBRATION TIME",
+  // celebrationLocation = "UPDATE CELEBRATION LOCATION",
+  // celebrationAddress = "UPDATE CELEBRATION ADDRESS",
   // receptionTime = "5:00 PM",
   // receptionLocation = "Grand Ballroom",
   // receptionAddress = "456 Celebration Ave, Love City",
   showRsvp = true,
-  showCelebration = false,
+
   showRegistry = true,
   whereIsTheWeddingTitle = "UPDATE WHERE IS THE WEDDING TITLE",
   whereIsTheWeddingContent = "UPDATE WHERE IS THEWEDDING CONTENT",
@@ -121,10 +119,10 @@ export function WeddingWebsite({
       )}
 
       <WeddingCelebrationDetails
-        celebrationDate={celebrationDate}
-        celebrationTime={celebrationTime}
-        celebrationLocation={celebrationLocation}
-        celebrationAddress={celebrationAddress}
+        // celebrationDate={celebrationDate}
+        // celebrationTime={celebrationTime}
+        // celebrationLocation={celebrationLocation}
+        // celebrationAddress={celebrationAddress}
       />
 
       {/* Our Story Section */}

@@ -1,31 +1,43 @@
 import { Calendar01Icon, Clock01Icon } from "@hugeicons/core-free-icons"
 import { WeddingSection } from "./WeddingSection"
 import { WeddingInfoCard } from "./WeddingInfoCard"
+import { getInvitationByCode } from "@/app/backend/db"
 
 type WeddingCelebrationDetailsProps = {
-    celebrationDate: string
-    celebrationTime: string
-    celebrationLocation: string
-    celebrationAddress: string
+
+    invitationCode?: string
+
+    // celebrationDate: string
+    // celebrationTime: string
+    // celebrationLocation: string
+    // celebrationAddress: string
 
     // receptionTime: string
     // receptionLocation: string
     // receptionAddress: string
 }
 
-export function WeddingCelebrationDetails({
-    celebrationDate,
-    celebrationTime,
-    celebrationLocation,
-    celebrationAddress,
-    // receptionTime,
-    // receptionLocation,
-    // receptionAddress,
+export async function WeddingCelebrationDetails({
+    invitationCode,
 } : WeddingCelebrationDetailsProps) {
 
+    const celebrationDate = "November 8th, 2026";
+    const celebrationTime = "4:00 PM";
+    const celebrationLocation = "St. Mary's Chapel";
+    const celebrationAddress = "123 Wedding Lane";
+    
+    // const receptionTime = "";
+    // const receptionLocation = "";
+    // const receptionAddress = "";
 
+    let invitation = null;
 
-return (      
+    if (invitationCode) {
+        invitation = await getInvitationByCode(invitationCode);
+    }
+
+return (
+ 
     <WeddingSection
         title="Celebration Details"
         subtitle="Join us to celebrate our recent marriage"
