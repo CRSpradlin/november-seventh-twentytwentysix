@@ -12,3 +12,13 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Invitation {
+  id             Int    @id @default(autoincrement())
+  displayName    String
+  invitationCode    String
+  partySize         Int
+  partyMembers      String
+  submittedRSVP     Boolean
+  acceptingMembers  String
+}
