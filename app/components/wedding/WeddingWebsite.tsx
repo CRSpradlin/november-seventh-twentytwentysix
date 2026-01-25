@@ -85,44 +85,8 @@ export function WeddingWebsite({
         imageSrc={heroImageSrc}
         imageAlt={heroImageAlt}
         title={coupleNames}
-        subtitle="Come Celebrate With Us"
+        subtitle="Celebrate With Us"
         overlayOpacity="darker"
-      />
-
-
-      {/* Where's the Wedding Section */}
-      {showWhereIsTheWedding && (
-        <WeddingSection
-          title={whereIsTheWeddingTitle}
-          subtitle="A Celebration Party"
-          className="bg-muted/30"
-        >
-          <div className="mx-auto max-w-3xl">
-            <Card className="border-none bg-transparent shadow-none">
-              <CardContent className="text-center">
-                <div className="mb-6 flex justify-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                    <HugeiconsIcon
-                      icon={FavouriteIcon}
-                      strokeWidth={1.5}
-                      className="h-8 w-8 text-primary"
-                    />
-                  </div>
-                </div>
-                <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                  {whereIsTheWeddingContent}
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </WeddingSection>
-      )}
-
-      <WeddingCelebrationDetails
-        // celebrationDate={celebrationDate}
-        // celebrationTime={celebrationTime}
-        // celebrationLocation={celebrationLocation}
-        // celebrationAddress={celebrationAddress}
       />
 
       {/* Our Story Section */}
@@ -146,42 +110,6 @@ export function WeddingWebsite({
                 </div>
                 <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
                   {storyContent}
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </WeddingSection>
-      )}
-
-      {/* RSVP Section */}
-      {showRsvp && (
-        <WeddingSection
-          title="RSVP"
-          subtitle="We hope you can make it"
-          className="bg-background"
-        >
-          <div className="mx-auto max-w-md text-center">
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-serif text-xl font-normal">
-                  Kindly Respond
-                </CardTitle>
-                <CardDescription>
-                  Please let us know if you&apos;ll be joining us by clicking
-                  the button below
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center gap-4">
-                <Button size="lg" className="w-full sm:w-auto">
-                  <HugeiconsIcon
-                    icon={MailIcon}
-                    strokeWidth={2}
-                    data-icon="inline-start"
-                  />
-                  RSVP Now
-                </Button>
-                <p className="text-xs text-muted-foreground">
-                  Please respond by November 1st, 2026
                 </p>
               </CardContent>
             </Card>
@@ -225,13 +153,81 @@ export function WeddingWebsite({
         </WeddingSection>
       )}
 
+      {/* Where's the Wedding Section */}
+      {showWhereIsTheWedding && (
+        <WeddingSection
+          title={whereIsTheWeddingTitle}
+          subtitle="A Celebration Party"
+          className="bg-muted/30"
+        >
+          <div className="mx-auto max-w-3xl">
+            <Card className="border-none bg-transparent shadow-none">
+              <CardContent className="text-center">
+                <div className="mb-6 flex justify-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                    <HugeiconsIcon
+                      icon={FavouriteIcon}
+                      strokeWidth={1.5}
+                      className="h-8 w-8 text-primary"
+                    />
+                  </div>
+                </div>
+                <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
+                  {whereIsTheWeddingContent}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </WeddingSection>
+      )}
+
+      <WeddingCelebrationDetails/>
+
+
+
+      {/* RSVP Section */}
+      {showRsvp && (
+        <WeddingSection
+          title="RSVP"
+          subtitle="We hope you can make it"
+          className="bg-background"
+        >
+          <div className="mx-auto max-w-md text-center">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-serif text-xl font-normal">
+                  Kindly Respond
+                </CardTitle>
+                <CardDescription>
+                  Please let us know if you&apos;ll be joining us by clicking
+                  the button below
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center gap-4">
+                <Button size="lg" className="w-full sm:w-auto">
+                  <HugeiconsIcon
+                    icon={MailIcon}
+                    strokeWidth={2}
+                    data-icon="inline-start"
+                  />
+                  RSVP Now
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  Please respond by November 1st, 2026
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </WeddingSection>
+      )}
+
       {/* Footer */}
       <footer className="bg-background py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Separator className="mb-8" />
           <div className="text-center">
             <p className="mt-4 text-xs text-muted-foreground">
-              Made with love for my Wife 💕 - Chris
+              Made with love for my wife 💕 - Chris
             </p>
           </div>
         </div>
