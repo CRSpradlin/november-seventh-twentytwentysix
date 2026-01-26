@@ -15,7 +15,8 @@ import { Separator } from "@/app/components/ui/separator"
 import {
   Gif01Icon,
   FavouriteIcon,
-  MailIcon,
+  PumpkinIcon,
+  GiftIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { WeddingCelebrationDetails } from "./WeddingCelebrationDetails"
@@ -102,7 +103,7 @@ export function WeddingWebsite({
                 <div className="mb-6 flex justify-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                     <HugeiconsIcon
-                      icon={FavouriteIcon}
+                      icon={PumpkinIcon}
                       strokeWidth={1.5}
                       className="h-8 w-8 text-primary"
                     />
@@ -124,12 +125,12 @@ export function WeddingWebsite({
           subtitle="What about the dogs?"
           className="bg-muted/30"
         >
-          <div className="mx-auto max-w-2xl text-center">
-            <Card>
+          <div className="mx-auto max-w-3xl text-center">
+            <Card className="border-none bg-transparent shadow-none">
               <CardHeader>
                 <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
                   <HugeiconsIcon
-                    icon={Gif01Icon}
+                    icon={GiftIcon}
                     strokeWidth={1.5}
                     className="h-6 w-6 text-primary"
                   />
@@ -137,7 +138,7 @@ export function WeddingWebsite({
                 <CardTitle className="font-serif text-xl font-normal">
                   Winnie & Ari Fund
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
                   Accoring to Chris&apos;s mother, we already have too much stuff. Instead of a normal registry we are asking
                   for contributions to our Winnie & Ari Fund so that they can help celebrate with us through
                   treats, toys and adventures!
@@ -182,44 +183,6 @@ export function WeddingWebsite({
       )}
 
       <WeddingCelebrationDetails/>
-
-
-
-      {/* RSVP Section */}
-      {showRsvp && (
-        <WeddingSection
-          title="RSVP"
-          subtitle="We hope you can make it"
-          className="bg-background"
-        >
-          <div className="mx-auto max-w-md text-center">
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-serif text-xl font-normal">
-                  Kindly Respond
-                </CardTitle>
-                <CardDescription>
-                  Please let us know if you&apos;ll be joining us by clicking
-                  the button below
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center gap-4">
-                <Button size="lg" className="w-full sm:w-auto">
-                  <HugeiconsIcon
-                    icon={MailIcon}
-                    strokeWidth={2}
-                    data-icon="inline-start"
-                  />
-                  RSVP Now
-                </Button>
-                <p className="text-xs text-muted-foreground">
-                  Please respond by November 1st, 2026
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </WeddingSection>
-      )}
 
       {/* Footer */}
       <footer className="bg-background py-12">
