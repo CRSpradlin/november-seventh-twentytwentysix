@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
+import { WeddingInvitationCodeForm } from "./WeddingInvitationCodeForm"
 
 export async function WeddingCelebrationDetails() {
     // Retrieve invitation code from cookies
@@ -73,6 +74,7 @@ return (<>
                         <p className="text-muted-foreground">
                             Please use the invitation code sent to you in the mail to view celebration details.
                         </p>
+                        <WeddingInvitationCodeForm />
                     </div>
                 </div>
             )}
