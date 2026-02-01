@@ -1,4 +1,4 @@
-import { Calendar01Icon, Clock01Icon, MailIcon } from "@hugeicons/core-free-icons"
+import { Ar, Calendar01Icon, Clock01Icon, MailIcon } from "@hugeicons/core-free-icons"
 import { WeddingSection } from "./WeddingSection"
 import { WeddingInfoCard } from "./WeddingInfoCard"
 import { HugeiconsIcon } from "@hugeicons/react"
@@ -13,7 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
+
 import { WeddingInvitationCodeForm } from "./WeddingInvitationCodeForm"
+import { WeddingRSVPButton } from "./WeddingRSVPButton"
 
 export async function WeddingCelebrationDetails() {
     // Retrieve invitation code from cookies
@@ -98,14 +100,7 @@ return (<>
             </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
-            <Button size="lg" className="w-full sm:w-auto">
-                <HugeiconsIcon
-                icon={MailIcon}
-                strokeWidth={2}
-                data-icon="inline-start"
-                />
-                RSVP Now
-            </Button>
+            <WeddingRSVPButton />
             <p className="text-xs text-muted-foreground">
                 Please respond by November 1st, 2026
             </p>

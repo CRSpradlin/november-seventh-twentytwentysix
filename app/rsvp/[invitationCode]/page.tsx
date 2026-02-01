@@ -5,6 +5,8 @@ import { getInvitationByCode } from '@/app/backend/db';
 import { setInvitationCodeCookie } from '@/app/backend/cookies';
 import { useEffect } from 'react';
 
+import { useInvitationStore } from "@/stores/useInvitationStore";
+
 interface PageProps {
     params: Promise<{
         invitationCode: string;
@@ -25,9 +27,10 @@ export default function RSVPPage({ params }: PageProps) {
             // Validate the invitation code exists in the database
             const invitation = await getInvitationByCode(invitationCode);
 
-            // If invitation code is not valid, show 404
             if (invitation !== undefined && invitation !== null) {
                 await setInvitationCodeCookie(invitationCode);
+                // set invitation in global state if needed
+                useInvitationStore.getState().setInvitation(invitation);
             }
 
             // Redirect to the main page or RSVP form
