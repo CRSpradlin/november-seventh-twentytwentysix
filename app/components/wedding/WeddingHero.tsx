@@ -65,6 +65,7 @@ export function WeddingHero({
           src={imageSrc}
           alt={imageAlt}
           fill
+          loading="eager"
           priority={false}
           onLoad={() => setIsLoading(false)}
           onError={() => {
