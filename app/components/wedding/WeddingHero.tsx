@@ -43,7 +43,7 @@ export function WeddingHero({
       <div className="absolute inset-0 z-0">
         {/* Loading state */}
         {isLoading && !hasError && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-b from-stone-100 to-stone-200 dark:from-stone-900 dark:to-stone-800">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-linear-to-b from-stone-100 to-stone-200 dark:from-stone-900 dark:to-stone-800">
             <WeddingLoadingIndicator
               size="lg"
               message="Preparing something beautiful..."
@@ -53,7 +53,7 @@ export function WeddingHero({
 
         {/* Error state */}
         {hasError && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-b from-stone-100 to-stone-200 dark:from-stone-900 dark:to-stone-800">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-linear-to-b from-stone-100 to-stone-200 dark:from-stone-900 dark:to-stone-800">
             <div className="text-center">
               <p className="text-muted-foreground">Unable to load image</p>
             </div>
@@ -81,7 +81,7 @@ export function WeddingHero({
         {/* Overlay gradient */}
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-b",
+            "absolute inset-0 bg-linear-to-b",
             overlayClasses[overlayOpacity]
           )}
         />
