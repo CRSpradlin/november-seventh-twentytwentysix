@@ -17,8 +17,7 @@ model Invitation {
   id             Int    @id @default(autoincrement())
   displayName    String
   invitationCode    String
-  partySize         Int
-  partyMembers      String
-  submittedRSVP     Boolean
-  acceptingMembers  String
+  partyMembers      String[]
+  submittedRSVPMembers     String[]
+  acceptingMembers  String[]
 }
