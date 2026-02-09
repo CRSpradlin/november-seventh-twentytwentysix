@@ -28,4 +28,30 @@ export async function updateInvitation(invitation: Invitation) {
   });
 }
 
+export async function createInvitation(
+  displayName: string,
+  invitationCode: string,
+  partyMembers: string[]
+) {
+  // Check if invitation code already exists
+  const existing = await prisma.invitation.findFirst({
+    where: { invitationCode }
+  });
+
+  if (existing) {
+    throw new Error('Invitation code already exists');
+  }
+
+  // Create new invitation
+  return await prisma.invitation.create({
+    data: {
+      displayName,
+      invitationCode,
+      partyMembers,
+      submittedRSVPMembers: [],
+      acceptingMembers: [],
+    },
+  });
+}
+
 // export { prisma };
