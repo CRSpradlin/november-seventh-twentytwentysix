@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import { InvitationLoader } from "@/app/components/InvitationLoader";
 
 const notoSans = Noto_Sans({variable:'--font-sans'});
+
+const dancingScript = Dancing_Script({
+  variable: '--font-handwriting',
+  subsets: ['latin'],
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={notoSans.variable}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
       >
         <InvitationLoader />
         {children}

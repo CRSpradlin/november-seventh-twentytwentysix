@@ -4,6 +4,7 @@ import * as React from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { WeddingLoadingIndicator } from "./WeddingLoadingIndicator"
+import { useInvitationStore } from "@/stores/useInvitationStore"
 
 interface WeddingHeroProps {
   imageSrc: string
@@ -24,6 +25,7 @@ export function WeddingHero({
 }: WeddingHeroProps) {
   const [isLoading, setIsLoading] = React.useState(true)
   const [hasError, setHasError] = React.useState(false)
+  const invitation = useInvitationStore((state) => state.invitation)
 
   const overlayClasses = {
     light: "from-black/20 via-black/10 to-black/40",
@@ -94,6 +96,15 @@ export function WeddingHero({
           isLoading ? "opacity-0" : "opacity-100"
         )}
       >
+        {invitation && !isLoading && (
+          <div className="flex flex-col items-center gap-1">
+            <p className="font-handwriting animate-handwriting text-2xl sm:text-3xl md:text-4xl text-white/90 drop-shadow-md">
+              Welcome, {invitation.displayName}!
+            </p>
+            <div className="animate-handwriting-fade h-px w-24 bg-white/40 rounded-full" />
+          </div>
+        )}
+
         {subtitle && (
           <p className="font-bold tracking-[0.3em] text-white/80 text-xs sm:text-sm uppercase">
             {subtitle}
