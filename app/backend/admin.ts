@@ -1,7 +1,7 @@
 "use server";
 
 import { setAdminSessionCookie, getAdminSessionCookie, deleteAdminSessionCookie, checkLoginRateLimit, resetLoginAttempts } from './cookies';
-import { createInvitation } from './db';
+import { createInvitation, getAllInvitations, deleteInvitation } from './db';
 import { headers } from 'next/headers';
 
 export async function adminLogin(password: string): Promise<{ success: boolean; error?: string }> {
@@ -65,5 +65,39 @@ export async function adminCreateInvitation(
             return { success: false, error: error.message };
         }
         return { success: false, error: 'Failed to create invitation' };
+    }
+}
+
+export async function adminDeleteInvitation(id: number): Promise<{ success: boolean; error?: string }> {
+    const isAuthenticated = await getAdminSessionCookie();
+
+    if (!isAuthenticated) {
+        return { success: false, error: 'Unauthorized' };
+    }
+
+    if (!id || typeof id !== 'number') {
+        return { success: false, error: 'Invalid invitation ID' };
+    }
+
+    try {
+        await deleteInvitation(id);
+        return { success: true };
+    } catch {
+        return { success: false, error: 'Failed to delete invitation' };
+    }
+}
+
+export async function adminGetAllInvitations(): Promise<{ success: boolean; invitations?: Awaited<ReturnType<typeof getAllInvitations>>; error?: string }> {
+    const isAuthenticated = await getAdminSessionCookie();
+
+    if (!isAuthenticated) {
+        return { success: false, error: 'Unauthorized' };
+    }
+
+    try {
+        const invitations = await getAllInvitations();
+        return { success: true, invitations };
+    } catch {
+        return { success: false, error: 'Failed to fetch invitations' };
     }
 }

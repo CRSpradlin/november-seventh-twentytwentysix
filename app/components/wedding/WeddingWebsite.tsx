@@ -2,7 +2,6 @@
 import { cn } from "@/lib/utils"
 import { WeddingHero } from "./WeddingHero"
 import { WeddingSection } from "./WeddingSection"
-import { WeddingInfoCard } from "./WeddingInfoCard"
 import { Button } from "@/app/components/ui/button"
 import {
   Card,
@@ -13,7 +12,6 @@ import {
 } from "@/app/components/ui/card"
 import { Separator } from "@/app/components/ui/separator"
 import {
-  Gif01Icon,
   FavouriteIcon,
   PumpkinIcon,
   GiftIcon,

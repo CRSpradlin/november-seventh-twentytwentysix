@@ -58,4 +58,16 @@ export async function createInvitation(
   });
 }
 
+export async function getAllInvitations() {
+  return await prisma.invitation.findMany({
+    orderBy: { id: 'desc' },
+  });
+}
+
+export async function deleteInvitation(id: number) {
+  return await prisma.invitation.delete({
+    where: { id },
+  });
+}
+
 // export { prisma };

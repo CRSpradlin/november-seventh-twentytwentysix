@@ -21,13 +21,44 @@ export async function getInvitationCodeCookie() {
 
 import crypto from 'crypto';
 
-// Generate a secure random token for admin sessions
-function generateSessionToken(): string {
-    return crypto.randomBytes(32).toString('hex');
+// Use ADMIN_PASSWORD as the HMAC secret for signing session tokens
+function getSessionSecret(): string {
+    const secret = process.env.ADMIN_PASSWORD;
+    if (!secret) throw new Error('ADMIN_PASSWORD not configured');
+    return secret;
 }
 
-// Store the valid session token in memory (server-side only)
-const validSessionTokens = new Set<string>();
+// Generate an HMAC-signed session token: "timestamp.signature"
+function generateSessionToken(): string {
+    const timestamp = Date.now().toString();
+    const signature = crypto
+        .createHmac('sha256', getSessionSecret())
+        .update(timestamp)
+        .digest('hex');
+    return `${timestamp}.${signature}`;
+}
+
+// Verify an HMAC-signed session token
+function verifySessionToken(token: string, maxAgeMs: number): boolean {
+    const parts = token.split('.');
+    if (parts.length !== 2) return false;
+
+    const [timestamp, signature] = parts;
+    const age = Date.now() - parseInt(timestamp, 10);
+    if (isNaN(age) || age < 0 || age > maxAgeMs) return false;
+
+    const expectedSignature = crypto
+        .createHmac('sha256', getSessionSecret())
+        .update(timestamp)
+        .digest('hex');
+
+    return crypto.timingSafeEqual(
+        Buffer.from(signature, 'hex'),
+        Buffer.from(expectedSignature, 'hex')
+    );
+}
+
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 8; // 8 hours
 
 // Track login attempts for basic rate limiting
 const loginAttempts = new Map<string, { count: number; lastAttempt: number }>();
@@ -67,12 +98,11 @@ export async function resetLoginAttempts(ip: string) {
 export async function setAdminSessionCookie() {
     const cookieStore = await cookies();
     const token = generateSessionToken();
-    validSessionTokens.add(token);
     cookieStore.set('admin_session', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 8, // 8 hours
+        maxAge: SESSION_MAX_AGE_SECONDS,
         path: '/',
     });
 }
@@ -81,14 +111,14 @@ export async function getAdminSessionCookie() {
     const cookieStore = await cookies();
     const adminSession = cookieStore.get('admin_session');
     if (!adminSession?.value) return false;
-    return validSessionTokens.has(adminSession.value);
+    try {
+        return verifySessionToken(adminSession.value, SESSION_MAX_AGE_SECONDS * 1000);
+    } catch {
+        return false;
+    }
 }
 
 export async function deleteAdminSessionCookie() {
     const cookieStore = await cookies();
-    const adminSession = cookieStore.get('admin_session');
-    if (adminSession?.value) {
-        validSessionTokens.delete(adminSession.value);
-    }
     cookieStore.delete('admin_session');
 }
