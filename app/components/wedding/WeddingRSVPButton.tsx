@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react"
 import { MailIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@/app/components/ui/button"
@@ -15,14 +16,76 @@ import {
   AlertDialogTrigger,
 } from "@/app/components/ui/alert-dialog"
 import { useInvitationStore } from "@/stores/useInvitationStore"
+import { updateInvitation } from "@/app/backend/db";
+
+type MemberStatus = 'pending' | 'accepted' | 'declined';
 
 export const WeddingRSVPButton = () => {
     const invitation = useInvitationStore((state) => state.invitation);
-    
-    // Parse party members from comma-separated string
-    const partyMembers = invitation?.partyMembers 
-        ? invitation.partyMembers.split(',').map(name => name.trim()).filter(Boolean)
-        : [];
+
+    // Track acceptance status for each member
+    const [memberStatuses, setMemberStatuses] = useState<Record<string, MemberStatus>>({});
+
+    // Update member statuses when invitation changes
+    useEffect(() => {
+        if (invitation) {
+
+            const newStatuses = Object.fromEntries(
+                invitation.partyMembers.map(member => {
+                    if (invitation.acceptingMembers.includes(member)) {
+                        return [member, 'accepted' as MemberStatus];
+                    } else if (invitation.submittedRSVPMembers.includes(member)) {
+                        return [member, 'declined' as MemberStatus];
+                    } else {
+                        return [member, 'pending' as MemberStatus];
+                    }
+                })
+            );
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setMemberStatuses(newStatuses);
+        }
+    }, [invitation]);
+
+    const updateMemberStatus = (memberName: string, accepted: boolean) => {
+        if (invitation !== null) {
+            let newInvitation = {} as typeof invitation;
+            if (accepted) {
+                newInvitation = {
+                    ...invitation,
+                    acceptingMembers: Array.from(new Set([...invitation.acceptingMembers, memberName])),
+                    submittedRSVPMembers: Array.from(new Set([...invitation.acceptingMembers, memberName])),
+                };
+            } else {
+                newInvitation = {
+                    ...invitation,
+                    acceptingMembers: invitation.partyMembers.filter(member => member !== memberName),
+                    submittedRSVPMembers: Array.from(new Set([...invitation.submittedRSVPMembers, memberName])),
+                };
+            }
+            useInvitationStore.getState().setInvitation({...newInvitation});
+            updateInvitation(newInvitation);
+        }
+    }
+
+    const handleAccept = (memberName: string) => {
+        updateMemberStatus(memberName, true);
+    };
+
+    const handleDecline = (memberName: string) => {
+        updateMemberStatus(memberName, false);
+    };
+
+    const handleReset = (memberName: string) => {
+        if (invitation !== null) {
+            const newInvitation = {
+                ...invitation,
+                acceptingMembers: invitation.acceptingMembers.filter(member => member !== memberName),
+                submittedRSVPMembers: invitation.submittedRSVPMembers.filter(member => member !== memberName),
+            };
+            useInvitationStore.getState().setInvitation({...newInvitation});
+            updateInvitation(newInvitation);
+        }
+    };
 
     return (
         <AlertDialog>
@@ -52,16 +115,68 @@ export const WeddingRSVPButton = () => {
                                 <span className="font-medium">Party:</span> {invitation.displayName}
                             </p>
                             <p className="text-sm">
-                                <span className="font-medium">Party Size:</span> {invitation.partySize}
+                                <span className="font-medium">Party Size:</span> {invitation.partyMembers.length}
                             </p>
-                            {partyMembers.length > 0 && (
-                                <div className="text-sm">
+                            {invitation.partyMembers.length > 0 && (
+                                <div className="text-sm space-y-2">
                                     <span className="font-medium">Guests:</span>
-                                    <ul className="list-disc pl-5 mt-1 space-y-0.5">
-                                        {partyMembers.map((member, index) => (
-                                            <li key={index}>{member}</li>
+                                    <div className="space-y-2 mt-2">
+                                        {invitation.partyMembers.map((member, index) => (
+                                            <div key={index} className="flex items-center justify-between gap-2 p-2 rounded-md bg-background border">
+                                                <span className="text-sm font-medium">{member}</span>
+                                                {memberStatuses[member] === 'pending' && (
+                                                    <div className="flex gap-2">
+                                                        <Button
+                                                            size="sm"
+                                                            variant="default"
+                                                            onClick={() => handleAccept(member)}
+                                                            className="h-7 px-3 text-xs"
+                                                        >
+                                                            Accept
+                                                        </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="outline"
+                                                            onClick={() => handleDecline(member)}
+                                                            className="h-7 px-3 text-xs"
+                                                        >
+                                                            Decline
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                                {memberStatuses[member] === 'accepted' && (
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-xs font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">
+                                                            ✓ Accepted
+                                                        </span>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            onClick={() => handleReset(member)}
+                                                            className="h-7 px-2 text-xs"
+                                                        >
+                                                            Reset
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                                {memberStatuses[member] === 'declined' && (
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-xs font-medium text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                                                            ✗ Declined
+                                                        </span>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            onClick={() => handleReset(member)}
+                                                            className="h-7 px-2 text-xs"
+                                                        >
+                                                            Reset
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             )}
                         </div>

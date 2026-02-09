@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient } from '@/app/generated/prisma/client';
+import { Invitation, PrismaClient } from '@/app/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 const adapter = new PrismaPg({
@@ -16,6 +16,15 @@ export async function getInvitationByCode(invitationCode: string) {
     where: {
       invitationCode,
     },
+  });
+}
+
+export async function updateInvitation(invitation: Invitation) {
+  return await prisma.invitation.update({
+    where: {
+      id: invitation.id,
+    },
+    data: invitation,
   });
 }
 
