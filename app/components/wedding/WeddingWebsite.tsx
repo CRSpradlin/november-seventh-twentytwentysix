@@ -26,20 +26,8 @@ interface WeddingWebsiteProps {
   heroImageSrc: string
   heroImageAlt?: string
   coupleNames: string
-  // celebrationDate: string
-  
-  // // Event details
-  // celebrationTime: string
-  // celebrationLocation: string
-  // celebrationAddress: string
-  
-  // receptionTime: string
-  // receptionLocation: string
-  // receptionAddress: string
-  
+
   // Optional sections
-  showCelebration: boolean
-  showRsvp: boolean
   showRegistry: boolean
   showStory: boolean
   showWhereIsTheWedding: boolean
@@ -59,18 +47,10 @@ export function WeddingWebsite({
   heroImageSrc,
   heroImageAlt = "Wedding Celebration Banner",
   coupleNames = "Mr & Mrs",
-  // celebrationDate,
-  // celebrationTime = "UPDATE CELEBRATION TIME",
-  // celebrationLocation = "UPDATE CELEBRATION LOCATION",
-  // celebrationAddress = "UPDATE CELEBRATION ADDRESS",
-  // receptionTime = "5:00 PM",
-  // receptionLocation = "Grand Ballroom",
-  // receptionAddress = "456 Celebration Ave, Love City",
-  showRsvp = true,
 
   showRegistry = true,
   whereIsTheWeddingTitle = "UPDATE WHERE IS THE WEDDING TITLE",
-  whereIsTheWeddingContent = "UPDATE WHERE IS THEWEDDING CONTENT",
+  whereIsTheWeddingContent = "UPDATE WHERE IS THE WEDDING CONTENT",
   showWhereIsTheWedding = true,
 
   showStory = true,

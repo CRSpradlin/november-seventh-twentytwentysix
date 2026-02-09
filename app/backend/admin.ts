@@ -1,9 +1,20 @@
 "use server";
 
-import { setAdminSessionCookie, getAdminSessionCookie, deleteAdminSessionCookie } from './cookies';
+import { setAdminSessionCookie, getAdminSessionCookie, deleteAdminSessionCookie, checkLoginRateLimit, resetLoginAttempts } from './cookies';
 import { createInvitation } from './db';
+import { headers } from 'next/headers';
 
 export async function adminLogin(password: string): Promise<{ success: boolean; error?: string }> {
+    // Get client IP for rate limiting
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for') ?? headersList.get('x-real-ip') ?? 'unknown';
+    
+    // Check rate limit
+    const rateLimit = await checkLoginRateLimit(ip);
+    if (!rateLimit.allowed) {
+        return { success: false, error: `Too many login attempts. Try again in ${rateLimit.retryAfterSeconds} seconds.` };
+    }
+
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (!adminPassword) {
@@ -14,6 +25,8 @@ export async function adminLogin(password: string): Promise<{ success: boolean; 
         return { success: false, error: 'Invalid password' };
     }
 
+    // Reset rate limit on successful login
+    await resetLoginAttempts(ip);
     await setAdminSessionCookie();
     return { success: true };
 }

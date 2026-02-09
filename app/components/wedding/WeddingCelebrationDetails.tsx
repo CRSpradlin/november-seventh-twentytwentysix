@@ -1,4 +1,4 @@
-import { Ar, Calendar01Icon, Clock01Icon, MailIcon } from "@hugeicons/core-free-icons"
+import { Calendar01Icon, Clock01Icon, MailIcon } from "@hugeicons/core-free-icons"
 import { WeddingSection } from "./WeddingSection"
 import { WeddingInfoCard } from "./WeddingInfoCard"
 import { HugeiconsIcon } from "@hugeicons/react"

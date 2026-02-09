@@ -6,7 +6,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@/app/components/ui/button"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -46,24 +45,32 @@ export const WeddingRSVPButton = () => {
         }
     }, [invitation]);
 
-    const updateMemberStatus = (memberName: string, accepted: boolean) => {
+    const updateMemberStatus = async (memberName: string, accepted: boolean) => {
         if (invitation !== null) {
-            let newInvitation = {} as typeof invitation;
+            const previousInvitation = { ...invitation };
+            let newInvitation: typeof invitation;
             if (accepted) {
                 newInvitation = {
                     ...invitation,
                     acceptingMembers: Array.from(new Set([...invitation.acceptingMembers, memberName])),
-                    submittedRSVPMembers: Array.from(new Set([...invitation.acceptingMembers, memberName])),
+                    submittedRSVPMembers: Array.from(new Set([...invitation.submittedRSVPMembers, memberName])),
                 };
             } else {
                 newInvitation = {
                     ...invitation,
-                    acceptingMembers: invitation.partyMembers.filter(member => member !== memberName),
+                    acceptingMembers: invitation.acceptingMembers.filter(member => member !== memberName),
                     submittedRSVPMembers: Array.from(new Set([...invitation.submittedRSVPMembers, memberName])),
                 };
             }
-            useInvitationStore.getState().setInvitation({...newInvitation});
-            updateInvitation(newInvitation);
+            // Optimistic update
+            useInvitationStore.getState().setInvitation({ ...newInvitation });
+            try {
+                await updateInvitation(newInvitation);
+            } catch (error) {
+                console.error('Failed to update RSVP:', error);
+                // Rollback on failure
+                useInvitationStore.getState().setInvitation(previousInvitation);
+            }
         }
     }
 
@@ -75,15 +82,23 @@ export const WeddingRSVPButton = () => {
         updateMemberStatus(memberName, false);
     };
 
-    const handleReset = (memberName: string) => {
+    const handleReset = async (memberName: string) => {
         if (invitation !== null) {
+            const previousInvitation = { ...invitation };
             const newInvitation = {
                 ...invitation,
                 acceptingMembers: invitation.acceptingMembers.filter(member => member !== memberName),
                 submittedRSVPMembers: invitation.submittedRSVPMembers.filter(member => member !== memberName),
             };
-            useInvitationStore.getState().setInvitation({...newInvitation});
-            updateInvitation(newInvitation);
+            // Optimistic update
+            useInvitationStore.getState().setInvitation({ ...newInvitation });
+            try {
+                await updateInvitation(newInvitation);
+            } catch (error) {
+                console.error('Failed to reset RSVP:', error);
+                // Rollback on failure
+                useInvitationStore.getState().setInvitation(previousInvitation);
+            }
         }
     };
 
@@ -183,17 +198,8 @@ export const WeddingRSVPButton = () => {
                     </div>
                 )}
                 
-                <div className="space-y-2">
-                    <p className="font-semibold">How to RSVP:</p>
-                    <ul className="list-disc pl-5 space-y-1 text-sm">
-                        <li>Email us at: <a href="mailto:wedding@example.com" className="text-primary hover:underline">wedding@example.com</a></li>
-                        <li>Call or text: <a href="tel:+1234567890" className="text-primary hover:underline">(123) 456-7890</a></li>
-                        <li>Or fill out the RSVP card included with your invitation</li>
-                    </ul>
-                </div>
-                
                 <p className="text-sm text-muted-foreground">
-                    Please let us know of any dietary restrictions or special accommodations needed.
+                    Please use the buttons above to accept or decline for each guest. Let us know of any dietary restrictions or special accommodations needed.
                 </p>
             </div>
             </AlertDialogHeader>

@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { getInvitationByCode } from '@/app/backend/db';
 import { setInvitationCodeCookie } from '@/app/backend/cookies';
 import { useEffect } from 'react';
@@ -14,6 +14,7 @@ interface PageProps {
 }
 
 export default function RSVPPage({ params }: PageProps) {
+    const router = useRouter();
 
     useEffect(() => {
         const handleInvitationCodeCheck = async () => {
@@ -21,7 +22,8 @@ export default function RSVPPage({ params }: PageProps) {
 
             if (!invitationCode || invitationCode.trim() === "") {
                 // If no invitation code is provided, redirect to home
-                redirect('/');
+                router.push('/');
+                return;
             }
 
             // Validate the invitation code exists in the database
@@ -33,12 +35,12 @@ export default function RSVPPage({ params }: PageProps) {
                 useInvitationStore.getState().setInvitation(invitation);
             }
 
-            // Redirect to the main page or RSVP form
-            redirect('/');
+            // Redirect to the main page
+            router.push('/');
         };
 
         handleInvitationCodeCheck();
-    }, [params,]);
+    }, [params, router]);
 
     return null; // Since we're redirecting, no need to render anything
 }
