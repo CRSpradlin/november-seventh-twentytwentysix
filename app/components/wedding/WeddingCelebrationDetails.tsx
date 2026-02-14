@@ -1,11 +1,9 @@
-import { Calendar01Icon, Clock01Icon, MailIcon } from "@hugeicons/core-free-icons"
+import { Calendar01Icon, Clock01Icon } from "@hugeicons/core-free-icons"
 import { WeddingSection } from "./WeddingSection"
 import { WeddingInfoCard } from "./WeddingInfoCard"
-import { HugeiconsIcon } from "@hugeicons/react"
 import { getInvitationByCode } from "@/app/backend/db"
 import { cn } from "@/lib/utils"
 import { getInvitationCodeCookie } from "@/app/backend/cookies"
-import { Button } from "@/app/components/ui/button"
 import {
   Card,
   CardContent,
