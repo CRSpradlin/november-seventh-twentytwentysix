@@ -21,21 +21,16 @@ export async function WeddingCelebrationDetails() {
     // Retrieve invitation code from cookies
     const invitationCode = await getInvitationCodeCookie(); // Placeholder for cookie retrieval logic
 
-    // TODO: Needs to be moved to .env
-    const celebrationDate = "November 8th, 2026";
-    const celebrationTime = "4:00 PM";
-    const celebrationLocation = "St. Mary's Chapel";
-    const celebrationAddress = "123 Wedding Lane";
-    
-    // const receptionTime = "";
-    // const receptionLocation = "";
-    // const receptionAddress = "";
-
     let invitation = null;
 
     if (invitationCode) {
         invitation = await getInvitationByCode(invitationCode);
     }
+
+    const celebrationDate = invitation ? process.env.NEXT_PUBLIC_CELEBRATION_DATE : "November -1 2026";
+    const celebrationTime = invitation ? process.env.NEXT_PUBLIC_CELEBRATION_TIME : "1:00 AM";
+    const celebrationLocation = invitation ? process.env.NEXT_PUBLIC_CELEBRATION_LOCATION_NAME : "Definitly A Real Place";
+    const celebrationAddress = invitation ? process.env.NEXT_PUBLIC_CELEBRATION_LOCATION_ADDRESS : "1234 You Thought You Could Find Out Rd.";
 
     const isBlurred = !invitation;
 
@@ -52,8 +47,9 @@ return (<>
                         icon={Calendar01Icon}
                         title="Celebration Date"
                         description={celebrationDate}
+                        className="h-full"
                     >
-                        <p>Save the date and celebrate with us</p>
+                        <p>Save the Date!</p>
                     </WeddingInfoCard>
                 </div>
 
@@ -62,6 +58,7 @@ return (<>
                         icon={Clock01Icon}
                         title="Celebration Time & Location"
                         description={celebrationTime}
+                        className="h-full"
                     >
                         <p>{celebrationLocation}</p>
                         <p className="mt-1 text-xs">{celebrationAddress}</p>
@@ -90,18 +87,18 @@ return (<>
     >
         <div className="mx-auto max-w-md text-center">
         <Card>
-            <CardHeader>
-            <CardTitle className="font-serif text-xl font-normal">
+            <CardHeader className="text-lg sm:text-xl">
+            <CardTitle className="font-serif text-lg sm:text-xl font-normal">
                 Kindly Respond
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm">
                 Please let us know if you&apos;ll be joining us by clicking
                 the button below
             </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col items-center gap-4">
+            <CardContent className="flex flex-col items-center gap-4 text-md">
             <WeddingRSVPButton />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground">
                 Please respond by November 1st, 2026
             </p>
             </CardContent>
