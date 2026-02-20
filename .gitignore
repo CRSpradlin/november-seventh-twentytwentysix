@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+public/ignore-gallery/
 
 # debug
 npm-debug.log*

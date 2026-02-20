@@ -30,6 +30,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { WeddingCelebrationDetails } from "./WeddingCelebrationDetails"
 import { getInvitationByCode } from "@/app/backend/db"
 import { getInvitationCodeCookie } from "@/app/backend/cookies"
+import { ImageCarousel } from "../ui/image-carousel"
 
 interface WeddingWebsiteProps {
   // Hero section
@@ -98,7 +99,7 @@ export async function WeddingWebsite({
           subtitle="How it all began"
           className="bg-muted/30"
         >
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-4xl">
             <Card className="border-none bg-transparent shadow-none">
               <CardContent className="text-center">
                 <div className="mb-6 flex justify-center">
@@ -116,6 +117,7 @@ export async function WeddingWebsite({
               </CardContent>
             </Card>
           </div>
+          <ImageCarousel s3 autoPlay autoPlayInterval={5000} className="mx-auto mt-6"/>
         </WeddingSection>
       )}
 
@@ -126,7 +128,7 @@ export async function WeddingWebsite({
           subtitle="What about the dogs?"
           className="bg-muted/30"
         >
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-4xl text-center">
             <Card className="border-none bg-transparent shadow-none">
               <CardHeader>
                 <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -149,7 +151,7 @@ export async function WeddingWebsite({
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button variant="outline">Submit a Contribution!</Button>
+                      <Button variant="default">Submit a Contribution!</Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
@@ -199,7 +201,7 @@ export async function WeddingWebsite({
           subtitle="A Celebration Party"
           className="bg-muted/30"
         >
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-4xl">
             <Card className="border-none bg-transparent shadow-none">
               <CardContent className="text-center">
                 <div className="mb-6 flex justify-center">
